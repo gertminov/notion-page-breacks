@@ -77,8 +77,9 @@ func handleArguments() (string, string) {
 
 func getOutputName(outputName string, inputName string) string {
 	if outputName == "" {
-		newOutputName := TrimSuffix(inputName, ".html")
-		outputName = newOutputName + "-breaks.html"
+		//newOutputName := TrimSuffix(inputName, ".html")
+		//outputName = newOutputName + "-breaks.html"
+		outputName = "Breaks" + inputName
 	}
 	return outputName
 }
