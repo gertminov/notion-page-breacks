@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/artdarek/go-unzip"
+	"github.com/pkg/browser"
 	"github.com/sqweek/dialog"
 	"io/ioutil"
 	"log"
@@ -44,7 +45,10 @@ func main() {
 	}
 
 	if UiMode {
-		dialog.Message("Conversion completed successfully").Title("Completed").Info()
+		yes := dialog.Message("Conversion completed successfully\n want to open the file in the browser?").Title("Completed").YesNo()
+		if yes {
+			browser.OpenURL(outputName)
+		}
 	} else {
 		fmt.Println("Conversion Finished. New file is at: " + outputName)
 	}
