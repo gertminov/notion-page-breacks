@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/artdarek/go-unzip"
+	"github.com/sqweek/dialog"
 	"io/ioutil"
 	"log"
 	"os"
@@ -11,7 +12,7 @@ import (
 )
 
 func main() {
-	inputName, outputName := handleArguments()
+	inputName, outputName := HandleArguments()
 
 	fmt.Println(outputName)
 
@@ -42,55 +43,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Conversion Finished. New file is at: " + outputName)
-
-}
-
-func handleArguments() (string, string) {
-	var inputFile string
-	amtArgs := len(os.Args)
-	if amtArgs < 2 {
-		log.Fatal("No input file given.\nRun with -h to see available arguments")
-	}
-	firstArg := os.Args[1]
-
-	if firstArg == "-h" {
-		fmt.Println("Usage: ")
-		fmt.Println("       notion-breaks input.html     or     notion-breaks input.zip")
-		fmt.Println("Arguments:")
-		fmt.Println("-o [output]    custom output name")
-		os.Exit(0)
-	} else if !(strings.Contains(firstArg, ".html") || strings.Contains(firstArg, ".zip")) {
-		log.Fatal("only .html files and .zip archives can be processed")
-	} else if strings.Contains(firstArg, ".zip") {
-		dirPath := extractZip(firstArg)
-		inputFile = dirPath + "/" + getHTMLFile(dirPath)
-
-	} else if strings.Contains(firstArg, ".html") {
-		inputFile = firstArg
+	if UiMode {
+		dialog.Message("Conversion completed successfully").Title("Completed").Info()
+	} else {
+		fmt.Println("Conversion Finished. New file is at: " + outputName)
 	}
 
-	outputName := ""
-	if amtArgs > 2 {
-		secondArg := os.Args[2]
-		if secondArg == "-o" {
-			outputName = os.Args[3]
-			dirPath := func() string {
-				if filepath.Dir(inputFile) == "." {
-					return ""
-				} else {
-					return filepath.Dir(inputFile)
-				}
-			}()
-			outputName = dirPath + "/" + outputName
-			if !strings.HasSuffix(outputName, ".html") {
-				outputName = outputName + ".html"
-			}
-		}
-
-	}
-
-	return inputFile, outputName
 }
 
 func getOutputName(outputName string, inputName string) string {
@@ -111,9 +69,15 @@ func TrimSuffix(s, suffix string) string {
 
 //Extracts zip file and returns path to extracted folder
 func extractZip(filename string) string {
+	curDir := filepath.Dir(filename)
+	err := os.RemoveAll(curDir + "/extract")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	outDir := filepath.Dir(filename) + "/extract"
 	uz := unzip.New(filename, outDir)
-	err := uz.Extract()
+	err = uz.Extract()
 	if err != nil {
 		log.Fatal(err)
 	}
