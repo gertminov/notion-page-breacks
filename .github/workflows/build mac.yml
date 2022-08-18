@@ -25,7 +25,7 @@ jobs:
       - name: Upload a Build artifact
         uses: actions/upload-artifact@v3
         with:
-          name: binaries
+          name: notion-page-breaks
           path: ./bin/
 
 

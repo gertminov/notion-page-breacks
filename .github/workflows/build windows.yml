@@ -20,7 +20,7 @@ jobs:
         go-version: 1.18
 
     - name: Build
-      run: go build -o bin/out
+      run: go build -o bin/out.exe
       
     - name: Upload a Build artifact
       uses: actions/upload-artifact@v3
