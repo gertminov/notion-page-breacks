@@ -2,6 +2,10 @@
 this is a little script that allows you to manually decide where a page should break when exporting a notion document.  \
 It adds `page-break-after: always` and `visibility: hidden !important;` to `<hr>` tags
 
+## Install
+Download the newest version from [the releases page](https://github.com/gertminov/notion-page-breacks/releases), 
+and place the `.exe`in the directory you want to export your notion page
+
 ## Usage
 1. Add a separator `---` in notion where you want a new page to begin
 2. Export the notion page as HTML
