@@ -9,7 +9,13 @@ on:
 jobs:
 
   build:
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+
+
     steps:
     - uses: actions/checkout@v3
 
@@ -24,6 +30,8 @@ jobs:
     - name: Upload a Build artifact
       uses: actions/upload-artifact@v3
       with:
-        name: osxfile
-        path: ./bin/out
+        name: binaries
+        path: ./bin/
+
+
 
