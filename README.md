@@ -11,7 +11,7 @@ and place the `.exe`in a directory that is in the PATH or copy it in the directo
 2. Export the notion page as HTML
 3. Open the Terminal and run `notion-pb "./filename.zip"` \
 (optional you can use `glob`patterns to add multiple files like `"./*.html"` to convert all `.html` files in the current folder)
-4. Open the new HTML file in `./fixed/extract` the Browser and hit `CTRL + P` to open the print dialog
+4. Open the new HTML file in `./fixed/` in your Browser and hit `CTRL + P` to open the print dialog
 5. Choose "Save as PDF" and hit print
 
 You should now have a beautiful PDF file that has page breaks, where you want them
