@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/artdarek/go-unzip"
 	"log"
+	"os"
 	"path/filepath"
 )
 
@@ -35,4 +36,21 @@ func GetHTMLFile(dirname string) (string, error) {
 	}
 
 	return matches[0], nil
+}
+
+func CopyResourceFiles(extractedDir string, outDir string) {
+	filesExtractedDir, err := filepath.Glob(extractedDir + "/*")
+	if err != nil {
+		log.Fatal("Problem getting resource files from extracted zip folder: " + extractedDir + "\n" + err.Error())
+	}
+	for _, match := range filesExtractedDir {
+		ext := filepath.Ext(match)
+		if ext != ".html" {
+			outName := filepath.Join(outDir, filepath.Base(match))
+			err = os.Rename(match, outName)
+			if err != nil {
+				log.Fatal("Error while moving resource files from extraced folder to fixed folder:\n" + err.Error())
+			}
+		}
+	}
 }
